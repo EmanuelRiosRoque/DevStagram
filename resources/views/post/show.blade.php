@@ -24,6 +24,8 @@
     
         <div class="md:w-1/2 p-5">
             <div class="shadow bg-white p-5 mb-5">
+                @auth
+
                 <p class="text-xl font-bold text-center mb-4">Agregar un nuevo comentario</p>
 
                 <form action="">
@@ -50,6 +52,7 @@
                     />
                 </form>
 
+                @endauth
             </div>
         </div>
     </div>

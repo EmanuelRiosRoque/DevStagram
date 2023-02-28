@@ -6,4 +6,5 @@
 @endsection
 
 @section('contenido')
+
 @endsection

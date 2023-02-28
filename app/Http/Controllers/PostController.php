@@ -12,7 +12,7 @@ class PostController extends Controller
     // Desde otro navegador ya no manda en ERRROS# carpeta 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['show', 'index']);
     }
 
     public function index(User $user)

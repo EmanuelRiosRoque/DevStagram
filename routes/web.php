@@ -7,6 +7,7 @@ use App\Http\Responses\LoginResponse;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostController as ControllersPostController;
+use App\Http\Controllers\QueryBuilderPrueba;
 use App\Models\User;
 use Illuminate\Auth\Events\Logout;
 
@@ -30,6 +31,7 @@ Route::get('/', function () {
     // })->middleware('auth');
 
 
+// Route::get('/', [QueryBuilderPrueba::class, 'pruebas'])->name('welcome');
 
 //Login Controller
 Route::get('/login', [LoginController::class, 'index'])->name('login');
