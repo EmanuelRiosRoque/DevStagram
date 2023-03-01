@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
@@ -43,9 +44,20 @@ Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
 
 // Geters Posts
 Route::get('/{user:username}',[PostController::class, 'index'])->name('posts.index');
+
+// Envia a la pestaña de crear 
 Route::get('/post/create', [PostController::class, 'create'])->name('posts.create');
 
+// Crea un post ruta
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+
+// Obtiene un ruta al momento de crear un post
 Route::get('/{user:username}/posts/{post}', [PostController::class, 'show'])->name('post.show');
+
+//Comentarios
+Route::post('/{user:username}/posts/{post}', [ComentarioController::class, 'store'])->name('comentarios.store');
+
+// Delete de comentario
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('post.destroy');
 
 Route::post('/imagenes', [ImagenController::class, 'store'])->name('imagenes.store');

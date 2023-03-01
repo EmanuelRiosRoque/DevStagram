@@ -74,7 +74,21 @@ class PostController extends Controller
     {
 
         return view('post.show', [
-            'post' =>  $post
+            'post' =>  $post,
+            'user' => $user
         ]);
+    }
+
+    //Elimina un post existente 
+    public function destroy(Post $post)
+    {
+        // dd('Eliminando', $post->id); // Ver que publicacion se va eliminar 
+        // Validacion En PostPolicy
+        $this->authorize('delete', $post);
+
+        $post->delete();
+
+        return redirect()->route('posts.index', auth()->user()->username);
+
     }
 }
