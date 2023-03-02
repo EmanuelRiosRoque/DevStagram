@@ -63,7 +63,7 @@
                     >
                     Antiguo Password
                     </label>
-
+                    
                     <input id="oldpassword" name="oldpassword" type="password" placeholder="Tu Password" class="border p-3 w-full rounded-lg @error('oldpassword') border-red-500 @enderror">
                     @error('oldpassword')
                         <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2">{{ $message }}</p>
@@ -98,8 +98,6 @@
                 <button type="submit" class="bg-sky-600 hover:bg-sky-800 transition-colors cursor-pointer uppercase font-bold w-full p-3 text-white rounded-lg">
                     {{__('Guardar Cambios')}}
                 </button>
-
-                
             </form>
         </div>
     </div>
