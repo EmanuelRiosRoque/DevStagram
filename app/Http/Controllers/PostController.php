@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
@@ -85,8 +86,15 @@ class PostController extends Controller
         // dd('Eliminando', $post->id); // Ver que publicacion se va eliminar 
         // Validacion En PostPolicy
         $this->authorize('delete', $post);
-
         $post->delete();
+
+        // este codigo elimina la imagen de nuestra carpeta public 
+        $imagen_path =  public_path('uploads/' . $post->imagen);
+
+        //Comprobar si el archivo esxiste 
+        if (File::exists($imagen_path)) {
+            unlink($imagen_path);
+        }
 
         return redirect()->route('posts.index', auth()->user()->username);
 

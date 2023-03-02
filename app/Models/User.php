@@ -43,10 +43,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    //Relaciones
+
     // Palabra resevada para hacer RELACIONES
     public function posts() 
     {
         // hasMany (Uno a Muchos) Un usuario pude tener muchos Posts
         return $this->hasMany(Post::class);
     }
+
+    public function likes()
+    {
+        // Una usuario pude tener multiples likes
+        return $this->hasMany(Like::class);
+    }
+
+
 }
