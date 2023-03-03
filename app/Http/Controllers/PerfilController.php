@@ -47,28 +47,25 @@ class PerfilController extends Controller
         } 
 
 
-        // Guardar cambios Nombre de usuario
-        $usuario = User::find(auth()->user()->id);
-        $usuario->username = $request->username;
-
-
-        // Guardar cambios Imagen del usuario
-        $usuario->imagen = $nombreImagen ?? auth()->user()->imagen ??  null;
-
-        // Guardar cambios Email del usuario        
-        $usuario = User::find(auth()->user()->id);
-        $usuario->email = $request->email ?? auth()->user()->email;
-
-        $usuario->save();
-
-
-            
+    
         if($request->oldpassword || $request->password) {
             $this->validate($request, [
                 'password' => 'required|confirmed',
             ]);
  
             if (Hash::check($request->oldpassword, auth()->user()->password)) {
+                // Guardar cambios Nombre de usuario
+                $usuario = User::find(auth()->user()->id);
+                // Guardar username
+                $usuario->username = $request->username;
+
+                // Guardar cambios Imagen del usuario
+                $usuario->imagen = $nombreImagen ?? auth()->user()->imagen ??  null;
+
+                // Guardar cambios Email del usuario        
+                $usuario->email = $request->email ?? auth()->user()->email;
+
+                // Guardar password
                 $usuario->password = Hash::make($request->password) ?? auth()->user()->password;
                 $usuario->save();
             } else {
@@ -76,9 +73,7 @@ class PerfilController extends Controller
             }
         }
         
-
-    
-    
+        $usuario->save();
 
         return redirect()->route('posts.index', $usuario->username);
 
