@@ -13,7 +13,7 @@
             
             <div class="container mx-auto md:flex text-center justify-between items-center ">
                 <h1 class="text-3xl font-extrabold">
-                    <a href="/login">DevStagram</a>
+                    DevStagram
                 </h1>
         
 

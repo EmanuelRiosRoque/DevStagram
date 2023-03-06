@@ -29,54 +29,45 @@ class PerfilController extends Controller
         $request->request->add(['username' => Str::slug($request->username)]);
         
         $this->validate($request, [
-            'username' => ['required', 'unique:users,username,'.auth()->user()->id, 'min:3', 'max:20' ],
-            'email' => ['required', 'unique:users,email,'.auth()->user()->id, 'email', 'max:60'],
+            'username' => ['required', 'unique:users,username,'.auth()->user()->id, 'min:3', 'max:20', 'not_in:twitter,editar-perfil'],
+            'email' => 'required|email|unique:users,imagen,'.auth()->user()->id,
         ]);
-
-        // Leer o no en caso de que no se suba una imagen
-        if ($request->imagen) {
+ 
+        if($request->imagen) {
             $imagen = $request->file('imagen');
-
+ 
             $nombreImagen = Str::uuid() . "." . $imagen->extension();
     
             $imagenServidor = Image::make($imagen);
             $imagenServidor->fit(1000, 1000);
     
-            $imagenPath = public_path('perfiles') . '/' . $nombreImagen;
+            $imagenPath = public_path('perfiles') . "/" . $nombreImagen;
             $imagenServidor->save($imagenPath);
-        } 
-
-
-    
+        }
+ 
+        //Guardar Cambios
+ 
+        $usuario = User::find(auth()->user()->id);
+        $usuario->username = Str::slug($request->username);
+        $usuario->email = $request->email ?? auth()->user()->email;
+        $usuario->imagen = $nombreImagen ?? auth()->user()->imagen ?? null;
+ 
+        $usuario->save();
+        
         if($request->oldpassword || $request->password) {
             $this->validate($request, [
                 'password' => 'required|confirmed',
             ]);
  
             if (Hash::check($request->oldpassword, auth()->user()->password)) {
-                // Guardar cambios Nombre de usuario
-                $usuario = User::find(auth()->user()->id);
-                // Guardar username
-                $usuario->username = $request->username;
-
-                // Guardar cambios Imagen del usuario
-                $usuario->imagen = $nombreImagen ?? auth()->user()->imagen ??  null;
-
-                // Guardar cambios Email del usuario        
-                $usuario->email = $request->email ?? auth()->user()->email;
-
-                // Guardar password
                 $usuario->password = Hash::make($request->password) ?? auth()->user()->password;
                 $usuario->save();
+                return back()->with('mensaje-exito', 'La Contraseña Se Actualizada Correctamente');
             } else {
                 return back()->with('mensaje', 'La Contraseña Actual no Coincide');
             }
         }
         
-        $usuario->save();
-
         return redirect()->route('posts.index', $usuario->username);
-
     }
-    
 }
