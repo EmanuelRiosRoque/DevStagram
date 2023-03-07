@@ -8,7 +8,7 @@
 @section('contenido')
     <div class="container mx-auto md:flex">
         <div class="md:w-1/2 p-6 shadow-2xl">
-            <img class=" md:p-2 lg:p-0 " src="{{ asset('uploads') . '/' . $post->imagen }}" alt="Imagen del post {{$post->titulo}}">
+            <img class=" md:p-2 lg:p-0 rounded-md " src="{{ asset('uploads') . '/' . $post->imagen }}" alt="Imagen del post {{$post->titulo}}">
 
 
             {{--Funcion de dar likes --}}
@@ -56,6 +56,7 @@
 
 
             {{-- Formulario para eliminar post --}}
+            @if ($post->user_id === auth()->user()->id)
             @auth
                 {{--- No mistrar este formulario a no autentificados --}}
                 <button class="bg-red-500 hover:bg-red-700 p-2 rounded text-white font-bold mt-4 cursor-pointer px-6 py-3 shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id')">
@@ -88,7 +89,6 @@
                                 <button class="w-full inline-flex justify-center mt-0 rounded-md border border-gray-200 px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-3 focus:ring-offset-2 focus:ring-blue-200 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" type="button" onclick="toggleModal('modal-id')">
                                     Cerrar
                                 </button>
-                                @if ($post->user_id === auth()->user()->id)
                                 {{-- Si el post creado con el id tal es igual al id del usurario autentificado mostrar btn delete --}}
                                     <form action="{{ route('posts.destroy', $post) }}" method="POST">
                                         @method('DELETE') {{--Metdo spoofing: el navegador unicamente soporta post este metodo te permite agrgar otro tipo de peticiones--}}
