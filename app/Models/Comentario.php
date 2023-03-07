@@ -15,11 +15,8 @@ class Comentario extends Model
         'comentario'
     ];
 
-    // Saber quien escribio el comentario
-
     public function user()
     {
-        // Relacion inversa este comentario pertenece a 1 usuario 
-        return  $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 }

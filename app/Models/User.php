@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'username',
+        'username'
     ];
 
     /**
@@ -43,34 +43,34 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    //Relaciones
-
-    // Palabra resevada para hacer RELACIONES
-    public function posts() 
+    public function posts()
     {
-        // hasMany (Uno a Muchos) Un usuario pude tener muchos Posts
         return $this->hasMany(Post::class);
     }
 
     public function likes()
     {
-        // Una usuario pude tener multiples likes
         return $this->hasMany(Like::class);
     }
 
-    // Crear metodo que almacena los seguidores de un usuario
+    // Almacena los seguidores de un usuario
     public function followers()
     {
-        // Multiples seguidores    
         return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower_id');
-    }
-    
-    public function siguiendo(User $user)
-    {
-        return $this->followers->siguiendo($user->id);
     }
 
     // Almacenar los que seguimos
+    public function followings()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id');
+    }
+
+    // Comprobar si un usuario ya sigue a otro
+    public function siguiendo(User $user)
+    {
+        return $this->followers->contains( $user->id );
+    }
+
 
 
 }

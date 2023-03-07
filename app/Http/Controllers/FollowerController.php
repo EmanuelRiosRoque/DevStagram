@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class FollowerController extends Controller
 {                               // Este user es el perfil que estamos visitando
-    public function sotre(User $user)
+    public function store(User $user)
     {
         // dd($user->username);
         // Relacion con la misma tabla
