@@ -81,7 +81,7 @@
         {{-- Agregar comentario --}}
 
         <div class="md:w-1/2 p-5">
-            <livewire:comment-post :post="$post" :user="$user">
+                <livewire:comment-post :post="$post" :user="$user">
         </div>
         {{-- End Agregar comentario --}}
     </div>
